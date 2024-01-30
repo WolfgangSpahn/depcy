@@ -44,9 +44,12 @@ doctest: $(SRC)
 # git-update: ## Update git repository.
 # # add all the files in the current directory to the staging area.
 # 	git add *
-# # commit the changes to the staging area.
+# # commit the changes from the staging area.
 # 	git commit -m "update"
-# # ammend the changes to the staging area. (if necessary)
-# 	git commit --amend
 # # push the changes in your local repository to GitHub.
 # 	git push -u origin main
+
+# git-amend:  ## Amend git repository.
+# # ammend the changes from an updated staging area with minor changes. (if necessary)
+# 	git add *
+# 	git commit --amend --no-edit (-- force)
