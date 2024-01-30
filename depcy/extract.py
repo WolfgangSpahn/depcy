@@ -26,6 +26,10 @@
     >>> doc = nlp(text)
     >>> sents = list(doc.sents)
     >>> doc1 = sents[0].as_doc()
+    >>> docCN = merge_all(doc1, prep=False, compound=True, phrase=False, punct=False, appos=False, conj=False)
+    >>> pprint(nouns_propns(docCN))
+
+
     >>> tree_view(doc1)
     +--was|AUX (ROOT|12)
         +--Revolution|PROPN (nsubj|2)
@@ -88,7 +92,7 @@
         |           +--about|ADP (advmod|57)
         +--.|PUNCT (punct|59)
 
-    1) we merge all
+    0) we merge all
 
     >>> doc2 = merge_all(doc1)
     >>> tree_view(doc2)
@@ -126,6 +130,19 @@
         |       +--1820–1840|NUM (pobj|32)
         |           +--about|ADP (advmod|31)
         +--.|PUNCT (punct|33)
+
+    1) we get nouns and proper nouns, after the merge
+
+    >>> pprint(nouns_propns(doc2), width=200)
+    [The Industrial Revolution,
+     the First Industrial Revolution,
+     a period of global transition of human economy,
+     more widespread, efficient and stable manufacturing processes,
+     the Agricultural Revolution,
+     Great Britain,
+     continental Europe,
+     the United States,
+     the period]
 
     2) we get SPOs
 

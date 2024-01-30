@@ -23,10 +23,12 @@ source:    ## Show source files
 
 doctest:   ## Run the doctests.
 doctest: $(SRC)
-	python -m depcy.merge
-	# python -m depcy.string
-	# python -m depcy.utils
-	# python -m depcy.extract
+	python -m depcy.base.merge
+	python -m depcy.base.navigate
+	python -m depcy.base.string
+	python -m depcy.utils
+	python -m depcy.split
+	python -m depcy.extract
 
 # git-setup:  ## Initialize git repository.
 # # setup a new git repository in the current directory.

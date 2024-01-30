@@ -12,9 +12,9 @@ https://wolfgangspahn.github.io/depcy_docs.github.io/
 
 ### Merge all
 
-Merging is our work horse for simple extraction. Here we use the default setting of merge all to merge the noun phrases.
+Merging with merge_all and its sisters is our work horse for simple extraction. 
 
-~~~~python
+~~~~ python
 from pprint import pprint
 from depcy.utils import tree_view
 
@@ -22,12 +22,16 @@ nlp = spacy.load("en_core_web_sm")
 text = "The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840."
 doc = nlp(text)
 sents = list(doc.sents)
+~~~~
+
+By merge_all with default settings we get a deep merge of NOUN related tokens,
+~~~~ python
 doc1 = sents[0].as_doc()
 doc2 = merge_all(doc1)
 tree_view(doc2)
 ~~~~
 
-gives us a dep tree with merged noun phrases
+as you see in the resulting dep tree.
 
 ~~~~ bash
 
@@ -68,7 +72,59 @@ gives us a dep tree with merged noun phrases
 
 ~~~~
 
-### Get phrases from sentence
+### Extract merged noun phrases
+
+From the merged tree we can now extract the noun phrases with `nouns_prons`
+
+Our dep tree merged with default setting gives a good semantic representation of the key entities, which works well when interacting with LLMs.
+
+~~~ python
+pprint(nouns_propns(doc2), width=200)
+~~~
+
+a we merged the determiner, noun adjectives, compounds and of-prepositions. 
+
+~~~ bash
+[The Industrial Revolution,
+the First Industrial Revolution,
+a period of global transition of human economy,
+more widespread, efficient and stable manufacturing processes,
+the Agricultural Revolution,
+Great Britain,
+continental Europe,
+the United States,
+the period]
+~~~
+
+### Non-default merges
+
+Overwriting the default setting of `merge_all` in all combinations of our sister mergers. Here we effectively just use `merge_compounds`:
+
+~~~~ python
+doc0 = sents[0].as_doc()
+doc0 = merge_all(doc0, prep=False, compound=True, phrase=False, punct=False, appos=False, conj=False)
+pprint(nouns_propns(doc0), width=200)
+~~~~
+
+It gives us more the concepts but not the entities.
+
+~~~~ bash
+[Industrial Revolution,
+First,
+Industrial Revolution,
+period,
+transition,
+economy,
+manufacturing processes,
+Agricultural Revolution,
+Great Britain,
+continental Europe,
+United States,
+period]
+~~~~ 
+
+
+### Get key phrases from sentence
 
 ``` python
 text = "Momentum is conserved in this system because there are no external forces acting on it. The system is isolated, and the only forces at play are the internal forces between the two carts during the collision. According to the law of conservation of momentum, the total momentum of an isolated system remains constant. The total momentum before the collision, here just the momentum of cart 1, must equal the total momentum after the collision."
