@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>depcy.base.navigate API documentation</title>
+<meta name="description" content="This module contains functions to navigate the spacy dependency trees.
+Every function takes a spacy doc as input and returns a spacy tokens as output …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>depcy.base.navigate</code></h1>
+</header>
+<section id="section-intro">
+<p>This module contains functions to navigate the spacy dependency trees.
+Every function takes a spacy doc as input and returns a spacy tokens as output.</p>
+<p>In python console use it like this:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import spacy
+&gt;&gt;&gt; nlp = spacy.load(&quot;en_core_web_sm&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from depcy.utils import tree_view
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.&quot;)
+</code></pre>
+<p>Spacy gives us following dependency tree: </p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; tree_view(doc)
++--was|AUX (ROOT|12)
+    +--Revolution|PROPN (nsubj|2)
+    |   +--The|DET (det|0)
+    |   +--Industrial|PROPN (compound|1)
+    |   +--,|PUNCT (punct|3)
+    |   +--known|VERB (acl|5)
+    |   |   +--also|ADV (advmod|4)
+    |   |   +--as|ADP (prep|6)
+    |   |       +--Revolution|PROPN (pobj|10)
+    |   |           +--the|DET (det|7)
+    |   |           +--First|PROPN (compound|8)
+    |   |           +--Industrial|PROPN (compound|9)
+    |   +--,|PUNCT (punct|11)
+    +--period|NOUN (attr|14)
+    |   +--a|DET (det|13)
+    |   +--of|ADP (prep|15)
+    |   |   +--transition|NOUN (pobj|17)
+    |   |       +--global|ADJ (amod|16)
+    |   |       +--of|ADP (prep|18)
+    |   |           +--economy|NOUN (pobj|20)
+    |   |               +--human|ADJ (amod|19)
+    |   +--towards|ADP (prep|21)
+    |   |   +--processes|NOUN (pobj|29)
+    |   |       +--widespread|ADJ (amod|23)
+    |   |       |   +--more|ADV (advmod|22)
+    |   |       |   +--,|PUNCT (punct|24)
+    |   |       |   +--efficient|ADJ (conj|25)
+    |   |       |       +--and|CCONJ (cc|26)
+    |   |       |       +--stable|ADJ (conj|27)
+    |   |       +--manufacturing|NOUN (compound|28)
+    |   |       +--succeeded|VERB (relcl|31)
+    |   |           +--that|PRON (nsubj|30)
+    |   |           +--Revolution|PROPN (dobj|34)
+    |   |               +--the|DET (det|32)
+    |   |               +--Agricultural|PROPN (compound|33)
+    |   +--,|PUNCT (punct|35)
+    |   +--starting|VERB (acl|36)
+    |       +--from|ADP (prep|37)
+    |           +--Britain|PROPN (pobj|39)
+    |               +--Great|PROPN (compound|38)
+    |               +--and|CCONJ (cc|40)
+    |               +--Europe|PROPN (conj|42)
+    |                   +--continental|PROPN (compound|41)
+    |                   +--and|CCONJ (cc|43)
+    |                   +--States|PROPN (conj|46)
+    |                       +--the|DET (det|44)
+    |                       +--United|PROPN (compound|45)
+    +--,|PUNCT (punct|47)
+    +--occurred|VERB (ccomp|49)
+    |   +--that|PRON (nsubj|48)
+    |   +--during|ADP (prep|50)
+    |   |   +--period|NOUN (pobj|52)
+    |   |       +--the|DET (det|51)
+    |   |       +--from|ADP (prep|53)
+    |   |           +--around|ADP (prep|54)
+    |   |               +--1760|NUM (pobj|55)
+    |   +--to|ADP (prep|56)
+    |       +--1820–1840|NUM (pobj|58)
+    |           +--about|ADP (advmod|57)
+    +--.|PUNCT (punct|59)
+</code></pre>
+<p>As a simple example, we would like to explore the tokens 'processes' and 'towards.'</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; processes = next(token for token in doc if token.text == &quot;processes&quot;)
+&gt;&gt;&gt; towards = next(token for token in doc if token.text == &quot;towards&quot;)
+</code></pre>
+<p>Let's get the ancestors of 'processes' (parent, grandparent, etc.):</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print(ancestors(processes))
+[was, period, towards]
+</code></pre>
+<p>Now the childs</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print(childs(processes))
+[widespread, manufacturing, succeeded]
+</code></pre>
+<p>And the descendants (children, grandchildren, etc.)</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print(descendants_and_self(processes))
+[more, widespread, ,, efficient, and, stable, manufacturing, processes, that, succeeded, the, Agricultural, Revolution]
+</code></pre>
+<p>We can also get the right and left descendants (children, grandchildren, etc.) of a token:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print(right_descendants(processes))
+[that, succeeded, the, Agricultural, Revolution]
+&gt;&gt;&gt; print(left_descendants(processes))
+[more, widespread, ,, efficient, and, stable, manufacturing]
+</code></pre>
+<p>Or the right and left siblings of a token:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print(right_siblings(towards))
+[,, starting]
+&gt;&gt;&gt; print(left_siblings(towards))
+[a, of]
+</code></pre>
+<p>Finally, we can get all tokens that appear before the current token in the document, optionally skipping some branches:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print(precedings(towards))
+[a, period, of, global, transition, of, human, economy]
+&gt;&gt;&gt; print(root_precedings(towards, skip=['punct','acl']))
+[The, Industrial, Revolution, was, a, period, of, global, transition, of, human, economy]
+</code></pre>
+<p>Together with merging noun chunks, we can simply resolve 'that' to 'The Industrial Revolution', using rules like this:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; merge_noun_chunks = nlp.add_pipe(&quot;merge_noun_chunks&quot;)
+&gt;&gt;&gt; doc1 = nlp(&quot;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.&quot;)
+&gt;&gt;&gt; that = [token for token in doc1 if token.text == &quot;that&quot;]
+&gt;&gt;&gt; print([t for t in root_precedings(that[0], skip=['punct','acl']) if (t.pos_ in ['NOUN','PROPN'] and t.dep_ in ['nsubj'])])
+[The Industrial Revolution]
+&gt;&gt;&gt; print([t for t in root_precedings(that[1], skip=['punct','acl']) if (t.pos_ in ['NOUN','PROPN'] and t.dep_ in ['nsubj'])])
+[The Industrial Revolution]
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># Copyright (C) 2023, 2024 Dr. Wolfgang Spahn
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+
+&#34;&#34;&#34;
+    This module contains functions to navigate the spacy dependency trees.
+    Every function takes a spacy doc as input and returns a spacy tokens as output.
+
+    In python console use it like this:
+    &gt;&gt;&gt; import spacy
+    &gt;&gt;&gt; nlp = spacy.load(&#34;en_core_web_sm&#34;)
+
+    &gt;&gt;&gt; from depcy.utils import tree_view
+
+    &gt;&gt;&gt; doc = nlp(&#34;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.&#34;)
+
+    Spacy gives us following dependency tree: 
+    &gt;&gt;&gt; tree_view(doc)
+    +--was|AUX (ROOT|12)
+        +--Revolution|PROPN (nsubj|2)
+        |   +--The|DET (det|0)
+        |   +--Industrial|PROPN (compound|1)
+        |   +--,|PUNCT (punct|3)
+        |   +--known|VERB (acl|5)
+        |   |   +--also|ADV (advmod|4)
+        |   |   +--as|ADP (prep|6)
+        |   |       +--Revolution|PROPN (pobj|10)
+        |   |           +--the|DET (det|7)
+        |   |           +--First|PROPN (compound|8)
+        |   |           +--Industrial|PROPN (compound|9)
+        |   +--,|PUNCT (punct|11)
+        +--period|NOUN (attr|14)
+        |   +--a|DET (det|13)
+        |   +--of|ADP (prep|15)
+        |   |   +--transition|NOUN (pobj|17)
+        |   |       +--global|ADJ (amod|16)
+        |   |       +--of|ADP (prep|18)
+        |   |           +--economy|NOUN (pobj|20)
+        |   |               +--human|ADJ (amod|19)
+        |   +--towards|ADP (prep|21)
+        |   |   +--processes|NOUN (pobj|29)
+        |   |       +--widespread|ADJ (amod|23)
+        |   |       |   +--more|ADV (advmod|22)
+        |   |       |   +--,|PUNCT (punct|24)
+        |   |       |   +--efficient|ADJ (conj|25)
+        |   |       |       +--and|CCONJ (cc|26)
+        |   |       |       +--stable|ADJ (conj|27)
+        |   |       +--manufacturing|NOUN (compound|28)
+        |   |       +--succeeded|VERB (relcl|31)
+        |   |           +--that|PRON (nsubj|30)
+        |   |           +--Revolution|PROPN (dobj|34)
+        |   |               +--the|DET (det|32)
+        |   |               +--Agricultural|PROPN (compound|33)
+        |   +--,|PUNCT (punct|35)
+        |   +--starting|VERB (acl|36)
+        |       +--from|ADP (prep|37)
+        |           +--Britain|PROPN (pobj|39)
+        |               +--Great|PROPN (compound|38)
+        |               +--and|CCONJ (cc|40)
+        |               +--Europe|PROPN (conj|42)
+        |                   +--continental|PROPN (compound|41)
+        |                   +--and|CCONJ (cc|43)
+        |                   +--States|PROPN (conj|46)
+        |                       +--the|DET (det|44)
+        |                       +--United|PROPN (compound|45)
+        +--,|PUNCT (punct|47)
+        +--occurred|VERB (ccomp|49)
+        |   +--that|PRON (nsubj|48)
+        |   +--during|ADP (prep|50)
+        |   |   +--period|NOUN (pobj|52)
+        |   |       +--the|DET (det|51)
+        |   |       +--from|ADP (prep|53)
+        |   |           +--around|ADP (prep|54)
+        |   |               +--1760|NUM (pobj|55)
+        |   +--to|ADP (prep|56)
+        |       +--1820–1840|NUM (pobj|58)
+        |           +--about|ADP (advmod|57)
+        +--.|PUNCT (punct|59)
+
+
+    As a simple example, we would like to explore the tokens &#39;processes&#39; and &#39;towards.&#39;
+    &gt;&gt;&gt; processes = next(token for token in doc if token.text == &#34;processes&#34;)
+    &gt;&gt;&gt; towards = next(token for token in doc if token.text == &#34;towards&#34;)
+
+    Let&#39;s get the ancestors of &#39;processes&#39; (parent, grandparent, etc.):
+    &gt;&gt;&gt; print(ancestors(processes))
+    [was, period, towards]
+
+    Now the childs
+    &gt;&gt;&gt; print(childs(processes))
+    [widespread, manufacturing, succeeded]
+
+    And the descendants (children, grandchildren, etc.)
+    &gt;&gt;&gt; print(descendants_and_self(processes))
+    [more, widespread, ,, efficient, and, stable, manufacturing, processes, that, succeeded, the, Agricultural, Revolution]
+
+    We can also get the right and left descendants (children, grandchildren, etc.) of a token:
+    &gt;&gt;&gt; print(right_descendants(processes))
+    [that, succeeded, the, Agricultural, Revolution]
+    &gt;&gt;&gt; print(left_descendants(processes))
+    [more, widespread, ,, efficient, and, stable, manufacturing]
+
+    Or the right and left siblings of a token:
+    &gt;&gt;&gt; print(right_siblings(towards))
+    [,, starting]
+    &gt;&gt;&gt; print(left_siblings(towards))
+    [a, of]
+
+    Finally, we can get all tokens that appear before the current token in the document, optionally skipping some branches:
+    &gt;&gt;&gt; print(precedings(towards))
+    [a, period, of, global, transition, of, human, economy]
+    &gt;&gt;&gt; print(root_precedings(towards, skip=[&#39;punct&#39;,&#39;acl&#39;]))
+    [The, Industrial, Revolution, was, a, period, of, global, transition, of, human, economy]
+
+    Together with merging noun chunks, we can simply resolve &#39;that&#39; to &#39;The Industrial Revolution&#39;, using rules like this:
+    &gt;&gt;&gt; merge_noun_chunks = nlp.add_pipe(&#34;merge_noun_chunks&#34;)
+    &gt;&gt;&gt; doc1 = nlp(&#34;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.&#34;)
+    &gt;&gt;&gt; that = [token for token in doc1 if token.text == &#34;that&#34;]
+    &gt;&gt;&gt; print([t for t in root_precedings(that[0], skip=[&#39;punct&#39;,&#39;acl&#39;]) if (t.pos_ in [&#39;NOUN&#39;,&#39;PROPN&#39;] and t.dep_ in [&#39;nsubj&#39;])])
+    [The Industrial Revolution]
+    &gt;&gt;&gt; print([t for t in root_precedings(that[1], skip=[&#39;punct&#39;,&#39;acl&#39;]) if (t.pos_ in [&#39;NOUN&#39;,&#39;PROPN&#39;] and t.dep_ in [&#39;nsubj&#39;])])
+    [The Industrial Revolution]
+    
+&#34;&#34;&#34;
+
+from spacy.tokens.token import Token
+
+def getRoot(token: Token):
+    &#34;&#34;&#34;Returns the root of the current token&#34;&#34;&#34;
+    if token == None: return None
+    while token.dep_ != &#34;ROOT&#34;:
+        token = token.head
+    return token
+
+def walk(token, stop, skip=[]):
+    &#34;&#34;&#34;Walks the dependency tree from the current token, stopping iteration at stop, yielding all tokens&#34;&#34;&#34;
+    if token == None or token == stop: return
+    yield token
+    for child in childs(token, skip=skip):
+        yield from walk(child, stop, skip=skip)
+
+# ancestors
+        
+def ancestors(token, skip=[]):
+    &#34;&#34;&#34;Selects all ancestors (parent, grandparent, etc.) of the current token&#34;&#34;&#34;
+    if token == None: return []
+    ancs = []
+    while token.dep_ != &#34;ROOT&#34;:
+        token = token.head
+        ancs.append(token)
+    return sorted(ancs, key=lambda x: x.i)
+
+def ancestors_and_self(token, skip=[]):
+    &#34;&#34;&#34;Selects all ancestors (parent, grandparent, etc.) of the current token and the token itself&#34;&#34;&#34;
+    return sorted((ancestors(token, skip=skip) + [token]), key=lambda x: x.i)
+
+# childs
+
+def childs(token, skip=[]):
+    &#34;&#34;&#34;Selects all children of the current token&#34;&#34;&#34;
+    return [child for child in token.children if child.dep_ not in skip]
+
+# descendants
+
+def descendants(token, skip=[]):
+    &#34;&#34;&#34;Selects all descendants (children, grandchildren, etc.) of the current token&#34;&#34;&#34;
+    if token == None: return []
+    descs = []
+    for child in childs(token, skip=skip):
+        if child.dep_ not in skip:
+            descs.append(child)
+            descs.extend(descendants(child, skip=skip))
+    return sorted(descs, key=lambda x: x.i)
+
+def descendants_and_self(token, skip=[]):
+    &#34;&#34;&#34;Selects all descendants (children, grandchildren, etc.) of the current token and the token itself&#34;&#34;&#34;
+    return sorted((descendants(token, skip=skip) + [token]), key=lambda x: x.i)
+
+
+def right_descendants(token, skip=[]):
+    &#34;&#34;&#34;Selects descendants after (sentence order) the current token in sentence order&#34;&#34;&#34;
+    return sorted([d for d in descendants(token, skip=skip) if d.i &gt; token.i], key=lambda x: x.i)
+
+def left_descendants(token, skip=[]):
+    &#34;&#34;&#34;Selects descendants before (sentence order) the current token in sentence order&#34;&#34;&#34;
+    return sorted([d for d in descendants(token, skip=skip) if d.i &lt; token.i], key=lambda x: x.i)
+
+# siblings
+
+def right_siblings(token, skip=[]):
+    &#34;&#34;&#34;Selects all siblings after the current token&#34;&#34;&#34;
+    siblings = [child for child in token.head.children if child.dep_ not in skip and child.i &gt; token.i]
+    return sorted(siblings, key=lambda x: x.i)
+
+def left_siblings(token, skip=[]):
+    &#34;&#34;&#34;Selects all siblings before the current token&#34;&#34;&#34;
+    siblings = [child for child in token.head.children if child.dep_ not in skip and child.i &lt; token.i]
+    return sorted(siblings, key=lambda x: x.i)
+
+# preceding
+
+def precedings(token, skip=[]):
+    &#34;&#34;&#34;Selects all tokens that appear before the current token in the document, originating from its left siblings&#34;&#34;&#34;
+    result = []
+    if token.dep_ == &#34;ROOT&#34;: return result
+    for sibling in left_siblings(token, skip=skip):
+        result.extend(descendants_and_self(sibling, skip=skip))
+    return sorted(result+[token.head], key=lambda x: x.i)
+
+def root_precedings(token, skip=[]):
+    &#34;&#34;&#34;Selects all tokens that appear before the current token in the sentence, originating from root&#34;&#34;&#34;
+    root = getRoot(token)
+    result = list(walk(root,token,skip=skip))
+    result = [r for r in result if r.i &lt; token.i]
+    return sorted(result, key=lambda x: x.i)
+
+if __name__ == &#34;__main__&#34;:
+    import doctest
+    doctest.testmod()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="depcy.base.navigate.ancestors"><code class="name flex">
+<span>def <span class="ident">ancestors</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all ancestors (parent, grandparent, etc.) of the current token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ancestors(token, skip=[]):
+    &#34;&#34;&#34;Selects all ancestors (parent, grandparent, etc.) of the current token&#34;&#34;&#34;
+    if token == None: return []
+    ancs = []
+    while token.dep_ != &#34;ROOT&#34;:
+        token = token.head
+        ancs.append(token)
+    return sorted(ancs, key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.ancestors_and_self"><code class="name flex">
+<span>def <span class="ident">ancestors_and_self</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all ancestors (parent, grandparent, etc.) of the current token and the token itself</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ancestors_and_self(token, skip=[]):
+    &#34;&#34;&#34;Selects all ancestors (parent, grandparent, etc.) of the current token and the token itself&#34;&#34;&#34;
+    return sorted((ancestors(token, skip=skip) + [token]), key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.childs"><code class="name flex">
+<span>def <span class="ident">childs</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all children of the current token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def childs(token, skip=[]):
+    &#34;&#34;&#34;Selects all children of the current token&#34;&#34;&#34;
+    return [child for child in token.children if child.dep_ not in skip]</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.descendants"><code class="name flex">
+<span>def <span class="ident">descendants</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all descendants (children, grandchildren, etc.) of the current token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def descendants(token, skip=[]):
+    &#34;&#34;&#34;Selects all descendants (children, grandchildren, etc.) of the current token&#34;&#34;&#34;
+    if token == None: return []
+    descs = []
+    for child in childs(token, skip=skip):
+        if child.dep_ not in skip:
+            descs.append(child)
+            descs.extend(descendants(child, skip=skip))
+    return sorted(descs, key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.descendants_and_self"><code class="name flex">
+<span>def <span class="ident">descendants_and_self</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all descendants (children, grandchildren, etc.) of the current token and the token itself</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def descendants_and_self(token, skip=[]):
+    &#34;&#34;&#34;Selects all descendants (children, grandchildren, etc.) of the current token and the token itself&#34;&#34;&#34;
+    return sorted((descendants(token, skip=skip) + [token]), key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.getRoot"><code class="name flex">
+<span>def <span class="ident">getRoot</span></span>(<span>token: spacy.tokens.token.Token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the root of the current token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getRoot(token: Token):
+    &#34;&#34;&#34;Returns the root of the current token&#34;&#34;&#34;
+    if token == None: return None
+    while token.dep_ != &#34;ROOT&#34;:
+        token = token.head
+    return token</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.left_descendants"><code class="name flex">
+<span>def <span class="ident">left_descendants</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects descendants before (sentence order) the current token in sentence order</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def left_descendants(token, skip=[]):
+    &#34;&#34;&#34;Selects descendants before (sentence order) the current token in sentence order&#34;&#34;&#34;
+    return sorted([d for d in descendants(token, skip=skip) if d.i &lt; token.i], key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.left_siblings"><code class="name flex">
+<span>def <span class="ident">left_siblings</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all siblings before the current token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def left_siblings(token, skip=[]):
+    &#34;&#34;&#34;Selects all siblings before the current token&#34;&#34;&#34;
+    siblings = [child for child in token.head.children if child.dep_ not in skip and child.i &lt; token.i]
+    return sorted(siblings, key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.precedings"><code class="name flex">
+<span>def <span class="ident">precedings</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all tokens that appear before the current token in the document, originating from its left siblings</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def precedings(token, skip=[]):
+    &#34;&#34;&#34;Selects all tokens that appear before the current token in the document, originating from its left siblings&#34;&#34;&#34;
+    result = []
+    if token.dep_ == &#34;ROOT&#34;: return result
+    for sibling in left_siblings(token, skip=skip):
+        result.extend(descendants_and_self(sibling, skip=skip))
+    return sorted(result+[token.head], key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.right_descendants"><code class="name flex">
+<span>def <span class="ident">right_descendants</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects descendants after (sentence order) the current token in sentence order</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def right_descendants(token, skip=[]):
+    &#34;&#34;&#34;Selects descendants after (sentence order) the current token in sentence order&#34;&#34;&#34;
+    return sorted([d for d in descendants(token, skip=skip) if d.i &gt; token.i], key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.right_siblings"><code class="name flex">
+<span>def <span class="ident">right_siblings</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all siblings after the current token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def right_siblings(token, skip=[]):
+    &#34;&#34;&#34;Selects all siblings after the current token&#34;&#34;&#34;
+    siblings = [child for child in token.head.children if child.dep_ not in skip and child.i &gt; token.i]
+    return sorted(siblings, key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.root_precedings"><code class="name flex">
+<span>def <span class="ident">root_precedings</span></span>(<span>token, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects all tokens that appear before the current token in the sentence, originating from root</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def root_precedings(token, skip=[]):
+    &#34;&#34;&#34;Selects all tokens that appear before the current token in the sentence, originating from root&#34;&#34;&#34;
+    root = getRoot(token)
+    result = list(walk(root,token,skip=skip))
+    result = [r for r in result if r.i &lt; token.i]
+    return sorted(result, key=lambda x: x.i)</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.navigate.walk"><code class="name flex">
+<span>def <span class="ident">walk</span></span>(<span>token, stop, skip=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Walks the dependency tree from the current token, stopping iteration at stop, yielding all tokens</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def walk(token, stop, skip=[]):
+    &#34;&#34;&#34;Walks the dependency tree from the current token, stopping iteration at stop, yielding all tokens&#34;&#34;&#34;
+    if token == None or token == stop: return
+    yield token
+    for child in childs(token, skip=skip):
+        yield from walk(child, stop, skip=skip)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="depcy.base" href="index.html">depcy.base</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="depcy.base.navigate.ancestors" href="#depcy.base.navigate.ancestors">ancestors</a></code></li>
+<li><code><a title="depcy.base.navigate.ancestors_and_self" href="#depcy.base.navigate.ancestors_and_self">ancestors_and_self</a></code></li>
+<li><code><a title="depcy.base.navigate.childs" href="#depcy.base.navigate.childs">childs</a></code></li>
+<li><code><a title="depcy.base.navigate.descendants" href="#depcy.base.navigate.descendants">descendants</a></code></li>
+<li><code><a title="depcy.base.navigate.descendants_and_self" href="#depcy.base.navigate.descendants_and_self">descendants_and_self</a></code></li>
+<li><code><a title="depcy.base.navigate.getRoot" href="#depcy.base.navigate.getRoot">getRoot</a></code></li>
+<li><code><a title="depcy.base.navigate.left_descendants" href="#depcy.base.navigate.left_descendants">left_descendants</a></code></li>
+<li><code><a title="depcy.base.navigate.left_siblings" href="#depcy.base.navigate.left_siblings">left_siblings</a></code></li>
+<li><code><a title="depcy.base.navigate.precedings" href="#depcy.base.navigate.precedings">precedings</a></code></li>
+<li><code><a title="depcy.base.navigate.right_descendants" href="#depcy.base.navigate.right_descendants">right_descendants</a></code></li>
+<li><code><a title="depcy.base.navigate.right_siblings" href="#depcy.base.navigate.right_siblings">right_siblings</a></code></li>
+<li><code><a title="depcy.base.navigate.root_precedings" href="#depcy.base.navigate.root_precedings">root_precedings</a></code></li>
+<li><code><a title="depcy.base.navigate.walk" href="#depcy.base.navigate.walk">walk</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

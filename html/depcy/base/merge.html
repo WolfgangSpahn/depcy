@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>depcy.base.merge API documentation</title>
+<meta name="description" content="This module contains functions to merge tokens in spacy dependency trees.
+Every function takes a spacy doc as input and returns a spacy doc as output …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>depcy.base.merge</code></h1>
+</header>
+<section id="section-intro">
+<p>This module contains functions to merge tokens in spacy dependency trees.
+Every function takes a spacy doc as input and returns a spacy doc as output.</p>
+<p>In python console use it like this:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import spacy
+&gt;&gt;&gt; nlp = spacy.load(&quot;en_core_web_sm&quot;)
+&gt;&gt;&gt; from depcy.base.merge import merge_prepositions, merge_compound_nouns, merge_phrases, merge_punct, merge_appos, merge_all
+&gt;&gt;&gt; from depcy.utils import tree_view
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The blue, red apple of the apple tree has been fallen.&quot;)
+&gt;&gt;&gt; tree_view(doc)
++--fallen|VERB (ROOT|11)
+    +--apple|NOUN (nsubjpass|4)
+    |   +--The|DET (det|0)
+    |   +--blue|ADJ (amod|1)
+    |   +--,|PUNCT (punct|2)
+    |   +--red|ADJ (amod|3)
+    |   +--of|ADP (prep|5)
+    |       +--tree|NOUN (pobj|8)
+    |           +--the|DET (det|6)
+    |           +--apple|NOUN (compound|7)
+    +--has|AUX (aux|9)
+    +--been|AUX (auxpass|10)
+    +--.|PUNCT (punct|12)
+</code></pre>
+<p>Now we can merge parts of the tree into single tokens (4).</p>
+<p>1) Merge of prepositions into single tokens.</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; tree_view(merge_prepositions(doc))
++--fallen|VERB (ROOT|7)
+    +--apple of the apple tree|NOUN (nsubjpass|4)
+    |   +--The|DET (det|0)
+    |   +--blue|ADJ (amod|1)
+    |   +--,|PUNCT (punct|2)
+    |   +--red|ADJ (amod|3)
+    +--has|AUX (aux|5)
+    +--been|AUX (auxpass|6)
+    +--.|PUNCT (punct|8)
+</code></pre>
+<p>2) Merge of compound nouns into single tokens (7).</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The blue, red apple of the apple tree has been fallen.&quot;)
+&gt;&gt;&gt; tree_view(merge_compound_nouns(doc))
++--fallen|VERB (ROOT|10)
+    +--apple|NOUN (nsubjpass|4)
+    |   +--The|DET (det|0)
+    |   +--blue|ADJ (amod|1)
+    |   +--,|PUNCT (punct|2)
+    |   +--red|ADJ (amod|3)
+    |   +--of|ADP (prep|5)
+    |       +--apple tree|NOUN (pobj|7)
+    |           +--the|DET (det|6)
+    +--has|AUX (aux|8)
+    +--been|AUX (auxpass|9)
+    +--.|PUNCT (punct|11)
+</code></pre>
+<p>3) Merge of noun phrases into single tokens (0,2).</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The blue, red apple of the apple tree has been fallen.&quot;)
+&gt;&gt;&gt; tree_view(merge_phrases(doc))
++--fallen|VERB (ROOT|5)
+    +--The blue, red apple|NOUN (nsubjpass|0)
+    |   +--of|ADP (prep|1)
+    |       +--the apple tree|NOUN (pobj|2)
+    +--has|AUX (aux|3)
+    +--been|AUX (auxpass|4)
+    +--.|PUNCT (punct|6)
+</code></pre>
+<p>4) Merge of punctuation into single tokens (10,1).</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The blue, red apple of the apple tree has been fallen.&quot;)
+&gt;&gt;&gt; tree_view(merge_punct(doc))
++--fallen.|VERB (ROOT|10)
+    +--apple|NOUN (nsubjpass|3)
+    |   +--The|DET (det|0)
+    |   +--blue,|ADJ (amod|1)
+    |   +--red|ADJ (amod|2)
+    |   +--of|ADP (prep|4)
+    |       +--tree|NOUN (pobj|7)
+    |           +--the|DET (det|5)
+    |           +--apple|NOUN (compound|6)
+    +--has|AUX (aux|8)
+    +--been|AUX (auxpass|9)
+</code></pre>
+<p>4) Merge appos into single tokens (8).</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The blue, red apple of the apple tree, Martas tree, has been fallen.&quot;)
+&gt;&gt;&gt; tree_view(merge_appos(doc))
++--fallen|VERB (ROOT|11)
+    +--apple|NOUN (nsubjpass|4)
+    |   +--The|DET (det|0)
+    |   +--blue|ADJ (amod|1)
+    |   +--,|PUNCT (punct|2)
+    |   +--red|ADJ (amod|3)
+    |   +--of|ADP (prep|5)
+    |   +--tree, Martas tree,|NOUN (appos|8)
+    |       +--the|DET (det|6)
+    |       +--apple|NOUN (compound|7)
+    +--has|AUX (aux|9)
+    +--been|AUX (auxpass|10)
+    +--.|PUNCT (punct|12)
+</code></pre>
+<p>5) Merge all runs all above merges, except merge_punct.</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The blue, red apple of the apple tree, Martas tree, has been fallen, Tom and Jerry need to pick it up.&quot;)
+&gt;&gt;&gt; doc = merge_all(doc)
+&gt;&gt;&gt; tree_view(doc)
++--need|VERB (ROOT|8)
+    +--fallen|VERB (ccomp|3)
+    |   +--The blue, red apple of the apple tree, Martas tree,|NOUN (nsubjpass|0)
+    |   +--has|AUX (aux|1)
+    |   +--been|AUX (auxpass|2)
+    +--,|PUNCT (punct|4)
+    +--Tom|PROPN (nsubj|5)
+    |   +--and|CCONJ (cc|6)
+    |   +--Jerry|PROPN (conj|7)
+    +--pick|VERB (xcomp|10)
+    |   +--to|PART (aux|9)
+    |   +--it|PRON (dobj|11)
+    |   +--up|ADP (prt|12)
+    +--.|PUNCT (punct|13)
+</code></pre>
+<p>as merga consumes all local comma phrases, we can split the sentence at the remaining comma tokens</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print([ str(part) for part in split_sent_at_commas(doc)])
+['The blue, red apple of the apple tree, Martas tree, has been fallen', 'Tom and Jerry need to pick it up.']
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; doc = nlp(&quot;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.&quot;)
+&gt;&gt;&gt; doc = merge_all(doc)
+&gt;&gt;&gt; doc = merge_appos(doc, deps = ['acl'])
+&gt;&gt;&gt; tree_view(doc)
++--was|AUX (ROOT|1)
+    +--The Industrial Revolution, also known as the First Industrial Revolution,|PROPN (nsubj|0)
+    +--a period of global transition of human economy|NOUN (attr|2)
+    |   +--towards|ADP (prep|3)
+    |   |   +--more widespread, efficient and stable manufacturing processes|NOUN (pobj|4)
+    |   |       +--succeeded|VERB (relcl|6)
+    |   |           +--that|PRON (nsubj|5)
+    |   +--the Agricultural Revolution, starting|VERB (acl|7)
+    |       +--from|ADP (prep|8)
+    |           +--Great Britain|PROPN (pobj|9)
+    |               +--and|CCONJ (cc|10)
+    |               +--continental Europe|PROPN (conj|11)
+    |                   +--and|CCONJ (cc|12)
+    |                   +--the United States|PROPN (conj|13)
+    +--,|PUNCT (punct|14)
+    +--occurred|VERB (ccomp|16)
+    |   +--that|PRON (nsubj|15)
+    |   +--during|ADP (prep|17)
+    |   |   +--the period|NOUN (pobj|18)
+    |   |       +--from|ADP (prep|19)
+    |   |           +--around|ADP (prep|20)
+    |   |               +--1760|NUM (pobj|21)
+    |   +--to|ADP (prep|22)
+    |       +--1820–1840|NUM (pobj|24)
+    |           +--about|ADP (advmod|23)
+    +--.|PUNCT (punct|25)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; print([ str(part) for part in split_sent_at_commas(doc)])
+['The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States', 'that occurred during the period from around 1760 to about 1820–1840.']
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># Copyright (C) 2023, 2024 Dr. Wolfgang Spahn
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+
+&#34;&#34;&#34; 
+    This module contains functions to merge tokens in spacy dependency trees.
+    Every function takes a spacy doc as input and returns a spacy doc as output.
+
+    In python console use it like this:
+    &gt;&gt;&gt; import spacy
+    &gt;&gt;&gt; nlp = spacy.load(&#34;en_core_web_sm&#34;)
+    &gt;&gt;&gt; from depcy.base.merge import merge_prepositions, merge_compound_nouns, merge_phrases, merge_punct, merge_appos, merge_all
+    &gt;&gt;&gt; from depcy.utils import tree_view
+
+    &gt;&gt;&gt; doc = nlp(&#34;The blue, red apple of the apple tree has been fallen.&#34;)
+    &gt;&gt;&gt; tree_view(doc)
+    +--fallen|VERB (ROOT|11)
+        +--apple|NOUN (nsubjpass|4)
+        |   +--The|DET (det|0)
+        |   +--blue|ADJ (amod|1)
+        |   +--,|PUNCT (punct|2)
+        |   +--red|ADJ (amod|3)
+        |   +--of|ADP (prep|5)
+        |       +--tree|NOUN (pobj|8)
+        |           +--the|DET (det|6)
+        |           +--apple|NOUN (compound|7)
+        +--has|AUX (aux|9)
+        +--been|AUX (auxpass|10)
+        +--.|PUNCT (punct|12)
+
+    Now we can merge parts of the tree into single tokens (4).
+
+    1) Merge of prepositions into single tokens.
+
+    &gt;&gt;&gt; tree_view(merge_prepositions(doc))
+    +--fallen|VERB (ROOT|7)
+        +--apple of the apple tree|NOUN (nsubjpass|4)
+        |   +--The|DET (det|0)
+        |   +--blue|ADJ (amod|1)
+        |   +--,|PUNCT (punct|2)
+        |   +--red|ADJ (amod|3)
+        +--has|AUX (aux|5)
+        +--been|AUX (auxpass|6)
+        +--.|PUNCT (punct|8)
+
+    2) Merge of compound nouns into single tokens (7).
+
+    &gt;&gt;&gt; doc = nlp(&#34;The blue, red apple of the apple tree has been fallen.&#34;)
+    &gt;&gt;&gt; tree_view(merge_compound_nouns(doc))
+    +--fallen|VERB (ROOT|10)
+        +--apple|NOUN (nsubjpass|4)
+        |   +--The|DET (det|0)
+        |   +--blue|ADJ (amod|1)
+        |   +--,|PUNCT (punct|2)
+        |   +--red|ADJ (amod|3)
+        |   +--of|ADP (prep|5)
+        |       +--apple tree|NOUN (pobj|7)
+        |           +--the|DET (det|6)
+        +--has|AUX (aux|8)
+        +--been|AUX (auxpass|9)
+        +--.|PUNCT (punct|11)
+
+    3) Merge of noun phrases into single tokens (0,2).
+
+    &gt;&gt;&gt; doc = nlp(&#34;The blue, red apple of the apple tree has been fallen.&#34;)
+    &gt;&gt;&gt; tree_view(merge_phrases(doc))
+    +--fallen|VERB (ROOT|5)
+        +--The blue, red apple|NOUN (nsubjpass|0)
+        |   +--of|ADP (prep|1)
+        |       +--the apple tree|NOUN (pobj|2)
+        +--has|AUX (aux|3)
+        +--been|AUX (auxpass|4)
+        +--.|PUNCT (punct|6)
+
+    4) Merge of punctuation into single tokens (10,1).
+
+    &gt;&gt;&gt; doc = nlp(&#34;The blue, red apple of the apple tree has been fallen.&#34;)
+    &gt;&gt;&gt; tree_view(merge_punct(doc))
+    +--fallen.|VERB (ROOT|10)
+        +--apple|NOUN (nsubjpass|3)
+        |   +--The|DET (det|0)
+        |   +--blue,|ADJ (amod|1)
+        |   +--red|ADJ (amod|2)
+        |   +--of|ADP (prep|4)
+        |       +--tree|NOUN (pobj|7)
+        |           +--the|DET (det|5)
+        |           +--apple|NOUN (compound|6)
+        +--has|AUX (aux|8)
+        +--been|AUX (auxpass|9)
+
+    4) Merge appos into single tokens (8).
+
+    &gt;&gt;&gt; doc = nlp(&#34;The blue, red apple of the apple tree, Martas tree, has been fallen.&#34;)
+    &gt;&gt;&gt; tree_view(merge_appos(doc))
+    +--fallen|VERB (ROOT|11)
+        +--apple|NOUN (nsubjpass|4)
+        |   +--The|DET (det|0)
+        |   +--blue|ADJ (amod|1)
+        |   +--,|PUNCT (punct|2)
+        |   +--red|ADJ (amod|3)
+        |   +--of|ADP (prep|5)
+        |   +--tree, Martas tree,|NOUN (appos|8)
+        |       +--the|DET (det|6)
+        |       +--apple|NOUN (compound|7)
+        +--has|AUX (aux|9)
+        +--been|AUX (auxpass|10)
+        +--.|PUNCT (punct|12)
+
+    5) Merge all runs all above merges, except merge_punct.
+    &gt;&gt;&gt; doc = nlp(&#34;The blue, red apple of the apple tree, Martas tree, has been fallen, Tom and Jerry need to pick it up.&#34;)
+    &gt;&gt;&gt; doc = merge_all(doc)
+    &gt;&gt;&gt; tree_view(doc)
+    +--need|VERB (ROOT|8)
+        +--fallen|VERB (ccomp|3)
+        |   +--The blue, red apple of the apple tree, Martas tree,|NOUN (nsubjpass|0)
+        |   +--has|AUX (aux|1)
+        |   +--been|AUX (auxpass|2)
+        +--,|PUNCT (punct|4)
+        +--Tom|PROPN (nsubj|5)
+        |   +--and|CCONJ (cc|6)
+        |   +--Jerry|PROPN (conj|7)
+        +--pick|VERB (xcomp|10)
+        |   +--to|PART (aux|9)
+        |   +--it|PRON (dobj|11)
+        |   +--up|ADP (prt|12)
+        +--.|PUNCT (punct|13)
+    
+    as merga consumes all local comma phrases, we can split the sentence at the remaining comma tokens
+    &gt;&gt;&gt; print([ str(part) for part in split_sent_at_commas(doc)])
+    [&#39;The blue, red apple of the apple tree, Martas tree, has been fallen&#39;, &#39;Tom and Jerry need to pick it up.&#39;]
+
+    &gt;&gt;&gt; doc = nlp(&#34;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.&#34;)
+    &gt;&gt;&gt; doc = merge_all(doc)
+    &gt;&gt;&gt; doc = merge_appos(doc, deps = [&#39;acl&#39;])
+    &gt;&gt;&gt; tree_view(doc)
+    +--was|AUX (ROOT|1)
+        +--The Industrial Revolution, also known as the First Industrial Revolution,|PROPN (nsubj|0)
+        +--a period of global transition of human economy|NOUN (attr|2)
+        |   +--towards|ADP (prep|3)
+        |   |   +--more widespread, efficient and stable manufacturing processes|NOUN (pobj|4)
+        |   |       +--succeeded|VERB (relcl|6)
+        |   |           +--that|PRON (nsubj|5)
+        |   +--the Agricultural Revolution, starting|VERB (acl|7)
+        |       +--from|ADP (prep|8)
+        |           +--Great Britain|PROPN (pobj|9)
+        |               +--and|CCONJ (cc|10)
+        |               +--continental Europe|PROPN (conj|11)
+        |                   +--and|CCONJ (cc|12)
+        |                   +--the United States|PROPN (conj|13)
+        +--,|PUNCT (punct|14)
+        +--occurred|VERB (ccomp|16)
+        |   +--that|PRON (nsubj|15)
+        |   +--during|ADP (prep|17)
+        |   |   +--the period|NOUN (pobj|18)
+        |   |       +--from|ADP (prep|19)
+        |   |           +--around|ADP (prep|20)
+        |   |               +--1760|NUM (pobj|21)
+        |   +--to|ADP (prep|22)
+        |       +--1820–1840|NUM (pobj|24)
+        |           +--about|ADP (advmod|23)
+        +--.|PUNCT (punct|25)
+    
+    &gt;&gt;&gt; print([ str(part) for part in split_sent_at_commas(doc)])
+    [&#39;The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States&#39;, &#39;that occurred during the period from around 1760 to about 1820–1840.&#39;]
+
+&#34;&#34;&#34;
+import logging
+
+import spacy
+from spacy.matcher import Matcher
+from spacy.util import filter_spans
+from spacy.tokens import Span, Doc, Token
+
+logger = logging.getLogger(__name__)
+
+nlp = spacy.load(&#34;en_core_web_sm&#34;)
+
+# You have to set both, Span and Token: TODO: why?
+Token.set_extension(&#34;is_math&#34;, default=False,force=True)
+Span.set_extension(&#34;is_math&#34;, default=False,force=True)
+Token.set_extension(&#34;math&#34;, default=&#34;&#34;,force=True)
+Span.set_extension(&#34;math&#34;, default=&#34;&#34;,force=True)
+
+Token.set_extension(&#39;ref&#39;, default=False, force=True)
+
+
+def merge_all(doc, prep=True, compound=True, phrase=True, punct=False, appos=True,conj=False):
+    &#34;&#34;&#34;
+        Merge prepositions, compound nouns, phrases, and punctuation into single tokens.
+    &#34;&#34;&#34;
+
+    if compound: doc = merge_compound_nouns(doc)
+    if phrase: doc = merge_phrases(doc)
+    if prep: 
+        doc = merge_prepositions(doc)
+        doc = merge_prepositions(doc)
+    if punct: doc = merge_punct(doc)
+    if conj: doc = merge_noun_conjs(doc)
+    if appos: doc = merge_appos(doc)
+    return doc
+
+def merge_noun_conjs(doc):
+    &#34;&#34;&#34;
+        Merge conjunctions into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token is a conjunction (CC)
+            if token.dep_ == &#39;conj&#39; and token.pos_ in [&#39;PROPN&#39;,&#39;NOUN&#39;]:
+                idxs = [token.i]+[c.i for c in token.conjuncts]
+                start = min(idxs)
+                end = max(idxs)+1
+                if start &lt; end:
+                        span = doc[start : end]
+                        spans.append(span)
+                        # Merge the span into a single token
+        filtered_spans = filter_spans(spans) # type: ignore
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc
+
+def merge_prepositions(doc):
+    &#34;&#34;&#34;
+        Merge prepositions into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token is a preposition (ADP)
+            if token.dep_ == &#39;prep&#39; and token.text == &#39;of&#39; and token.head.pos_ in [&#39;NOUN&#39;,&#39;PROPN&#39;]:
+                idxs = [token.head.i]+[token.i]+[c.i for c in token.children]
+                start = min(idxs)
+                end = max(idxs)+1
+                if start &lt; end:
+                        span = doc[start : end]
+                        spans.append(span)
+                        # Merge the span into a single token
+        filtered_spans = filter_spans(spans)
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc
+
+def merge_appos(doc, deps = [&#39;appos&#39;]):
+    &#34;&#34;&#34;
+        Merge apostrophe into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token dep is appos
+            if token.dep_ in deps:
+                preds = sum([[pred.i for pred in child.subtree if pred.pos_] \
+                               for child in token.head.children if child.i &lt; token.i and child.pos_ != &#34;PUNCT&#34;],[])
+                succs = [child.i for child in token.head.children if (child.i &gt; token.i and child.pos_ == &#34;PUNCT&#34;)]
+                sibling = max(preds) if preds else (token.head.i if token.head.pos_ in [&#34;NOUN&#34;, &#34;PROPN&#34;] else token.i)
+                start = sibling
+                end = min(succs)+1 if succs else token.i+1
+                if start &lt; end: 
+                    span = doc[start : end]
+                    spans.append(span)
+        filtered_spans = filter_spans(spans)
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc
+
+def merge_verbs(doc):
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token dep is appos
+            if token.pos_ in &#34;VERB&#34;:
+                adjs = [c for c in token.children if c.pos_ in [&#34;ADJ&#34;]]
+                auxs = [c for c in token.children if c.pos_ in [&#34;ADJ&#34;, &#34;AUX&#34;, &#34;ADV&#34;] if c.i &lt; token.i]
+                suppls = adjs + auxs
+                idxs = [t.i for t in [token]+suppls]
+                if idxs:
+                    start = min(idxs)
+                    end = max(idxs)+1
+                    if start &lt; end:
+                        span = doc[start : end]
+                        spans.append(span)
+        for span in spans:
+            retokenizer.merge(span)
+    return doc
+
+def merge_compound_nouns(doc):
+    &#34;&#34;&#34;
+        Merge compound nouns into single tokens.
+    &#34;&#34;&#34;
+    # Create a matcher to find compound nouns
+    matcher = Matcher(doc.vocab)
+    pattern = [{&#39;DEP&#39;: &#39;compound&#39;}, {&#39;DEP&#39;: {&#39;NOT_IN&#39;: [&#39;punct&#39;, &#39;compound&#39;]}}]
+    matcher.add(&#34;COMPOUND_NOUN&#34;, [pattern])
+
+    # Find matches in the doc
+    matches = matcher(doc)
+
+    # Merge compound noun phrases
+    spans = []  # To store the spans to merge
+    for match_id, start, end in matches:
+        span = doc[start:end]  # The matched span
+        spans.append(span)
+
+    with doc.retokenize() as retokenizer:
+        for span in spans:
+            retokenizer.merge(span)
+
+    return doc
+
+def merge_phrases(doc, avoid = []):
+    &#34;&#34;&#34;
+        Merge noun phrases (noun_chunks) into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        nps = doc.noun_chunks
+        for np in nps:
+            attrs = {
+                &#34;tag&#34;: np.root.tag_,
+                &#34;lemma&#34;: np.root.lemma_,
+                &#34;ent_type&#34;: np.root.ent_type_,
+            }
+            if np[0].pos_ in avoid:
+                retokenizer.merge(np[1:], attrs=attrs)
+            else:
+                retokenizer.merge(np, attrs=attrs)
+    return doc
+
+
+def merge_punct(doc):
+    &#34;&#34;&#34;
+        Merge punctuation into single tokens.
+    &#34;&#34;&#34;
+    spans = []
+    for word in doc[:-1]:
+        if word.is_punct or not word.nbor(1).is_punct:
+            continue
+        start = word.i
+        end = word.i + 1
+        while end &lt; len(doc) and doc[end].is_punct:
+            end += 1
+        span = doc[start:end]
+        spans.append((span, word.tag_, word.lemma_, word.ent_type_))
+    with doc.retokenize() as retokenizer:
+        for span, tag, lemma, ent_type in spans:
+            attrs = {&#34;tag&#34;: tag, &#34;lemma&#34;: lemma, &#34;ent_type&#34;: ent_type}
+            retokenizer.merge(span, attrs=attrs)
+    return doc
+
+
+
+
+def merge_date(matcher,doc):
+    &#34;&#34;&#34;Dates are merged into one token&#34;&#34;&#34;
+    logger.debug(f&#34;merge_date: {doc}&#34;)
+    matcher.add(&#34;DATE&#34;, [[ {&#34;ORTH&#34;: {&#34;REGEX&#34;: r&#34;\d\d&#34;}}, {&#34;ORTH&#34;: {&#34;REGEX&#34;: r&#34;\d\d&#34;}},
+                           {&#34;ORTH&#34;: {&#34;REGEX&#34;: r&#34;\d\d\d\d&#34;}}]])
+
+    with doc.retokenize() as retokenizer:
+        for match_id, start, end in matcher(doc):
+            retokenizer.merge(doc[start:end])
+    return doc
+
+def merge_math(matcher,doc):
+    &#34;&#34;&#34;Marked math (via&#39;¦&#39;) is merged into one token with text and math attributes. 
+    After merging, the text is replaced by &#39;MATH&#39; and the is_math and math (orig tet)
+    attributes are set and the text is reparsed&#34;&#34;&#34;
+    logger.debug(f&#34;merge_math: {doc}&#34;)
+    start_index = None
+    end_index = None
+    for i, token in enumerate(doc):
+        if token.text == &#34;¦&#34;:
+            if start_index is None:
+                start_index = i
+            else:
+                end_index = i
+                break
+    if end_index is None or start_index is None:
+        return doc
+    # Merge the tokens between the &#34;¦&#34; signs
+    # TODO: look for a better alternative to &#39;¦&#39; 
+    with doc.retokenize() as retokenizer:
+        span = Span(doc, start_index,  end_index+1)
+        span._.is_math = True
+        retokenizer.merge(span,attrs = {&#34;TAG&#34;: &#34;NN&#34;,&#34;POS&#34;: &#34;PROPN&#34;,&#34;_&#34;: {&#34;is_math&#34;: True}})
+    # a hack: as I could not found a way to change token.text, I am using 
+    # the token._.math attribute to store the original text
+    math_txts = {i:token.text.strip(&#39;¦&#39;).strip() for i, token in enumerate(doc) if token._.is_math}
+    text = &#34; &#34;.join([token.text if not token._.is_math else &#34;MATH&#34; for token in doc])
+    new_doc = nlp(text)
+    for i, token in enumerate(new_doc):
+        if token.text == &#34;MATH&#34;:
+            token._.math = math_txts[i]
+            token._.is_math = True
+    return new_doc
+
+def split_sent_at_commas(doc):
+    &#34;&#34;&#34;Split sentences at commas&#34;&#34;&#34;
+    logger.debug(f&#34;split_sent_at_commas: {doc}&#34;)
+    start = 0
+    for word in doc:
+        if word.text == &#34;,&#34;:
+            yield doc[start:word.i]
+            start = word.i + 1
+    yield doc[start:]
+
+
+if __name__ == &#34;__main__&#34;:
+    import doctest
+    doctest.testmod()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="depcy.base.merge.merge_all"><code class="name flex">
+<span>def <span class="ident">merge_all</span></span>(<span>doc, prep=True, compound=True, phrase=True, punct=False, appos=True, conj=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge prepositions, compound nouns, phrases, and punctuation into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_all(doc, prep=True, compound=True, phrase=True, punct=False, appos=True,conj=False):
+    &#34;&#34;&#34;
+        Merge prepositions, compound nouns, phrases, and punctuation into single tokens.
+    &#34;&#34;&#34;
+
+    if compound: doc = merge_compound_nouns(doc)
+    if phrase: doc = merge_phrases(doc)
+    if prep: 
+        doc = merge_prepositions(doc)
+        doc = merge_prepositions(doc)
+    if punct: doc = merge_punct(doc)
+    if conj: doc = merge_noun_conjs(doc)
+    if appos: doc = merge_appos(doc)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_appos"><code class="name flex">
+<span>def <span class="ident">merge_appos</span></span>(<span>doc, deps=['appos'])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge apostrophe into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_appos(doc, deps = [&#39;appos&#39;]):
+    &#34;&#34;&#34;
+        Merge apostrophe into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token dep is appos
+            if token.dep_ in deps:
+                preds = sum([[pred.i for pred in child.subtree if pred.pos_] \
+                               for child in token.head.children if child.i &lt; token.i and child.pos_ != &#34;PUNCT&#34;],[])
+                succs = [child.i for child in token.head.children if (child.i &gt; token.i and child.pos_ == &#34;PUNCT&#34;)]
+                sibling = max(preds) if preds else (token.head.i if token.head.pos_ in [&#34;NOUN&#34;, &#34;PROPN&#34;] else token.i)
+                start = sibling
+                end = min(succs)+1 if succs else token.i+1
+                if start &lt; end: 
+                    span = doc[start : end]
+                    spans.append(span)
+        filtered_spans = filter_spans(spans)
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_compound_nouns"><code class="name flex">
+<span>def <span class="ident">merge_compound_nouns</span></span>(<span>doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge compound nouns into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_compound_nouns(doc):
+    &#34;&#34;&#34;
+        Merge compound nouns into single tokens.
+    &#34;&#34;&#34;
+    # Create a matcher to find compound nouns
+    matcher = Matcher(doc.vocab)
+    pattern = [{&#39;DEP&#39;: &#39;compound&#39;}, {&#39;DEP&#39;: {&#39;NOT_IN&#39;: [&#39;punct&#39;, &#39;compound&#39;]}}]
+    matcher.add(&#34;COMPOUND_NOUN&#34;, [pattern])
+
+    # Find matches in the doc
+    matches = matcher(doc)
+
+    # Merge compound noun phrases
+    spans = []  # To store the spans to merge
+    for match_id, start, end in matches:
+        span = doc[start:end]  # The matched span
+        spans.append(span)
+
+    with doc.retokenize() as retokenizer:
+        for span in spans:
+            retokenizer.merge(span)
+
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_date"><code class="name flex">
+<span>def <span class="ident">merge_date</span></span>(<span>matcher, doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dates are merged into one token</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_date(matcher,doc):
+    &#34;&#34;&#34;Dates are merged into one token&#34;&#34;&#34;
+    logger.debug(f&#34;merge_date: {doc}&#34;)
+    matcher.add(&#34;DATE&#34;, [[ {&#34;ORTH&#34;: {&#34;REGEX&#34;: r&#34;\d\d&#34;}}, {&#34;ORTH&#34;: {&#34;REGEX&#34;: r&#34;\d\d&#34;}},
+                           {&#34;ORTH&#34;: {&#34;REGEX&#34;: r&#34;\d\d\d\d&#34;}}]])
+
+    with doc.retokenize() as retokenizer:
+        for match_id, start, end in matcher(doc):
+            retokenizer.merge(doc[start:end])
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_math"><code class="name flex">
+<span>def <span class="ident">merge_math</span></span>(<span>matcher, doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Marked math (via'¦') is merged into one token with text and math attributes.
+After merging, the text is replaced by 'MATH' and the is_math and math (orig tet)
+attributes are set and the text is reparsed</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_math(matcher,doc):
+    &#34;&#34;&#34;Marked math (via&#39;¦&#39;) is merged into one token with text and math attributes. 
+    After merging, the text is replaced by &#39;MATH&#39; and the is_math and math (orig tet)
+    attributes are set and the text is reparsed&#34;&#34;&#34;
+    logger.debug(f&#34;merge_math: {doc}&#34;)
+    start_index = None
+    end_index = None
+    for i, token in enumerate(doc):
+        if token.text == &#34;¦&#34;:
+            if start_index is None:
+                start_index = i
+            else:
+                end_index = i
+                break
+    if end_index is None or start_index is None:
+        return doc
+    # Merge the tokens between the &#34;¦&#34; signs
+    # TODO: look for a better alternative to &#39;¦&#39; 
+    with doc.retokenize() as retokenizer:
+        span = Span(doc, start_index,  end_index+1)
+        span._.is_math = True
+        retokenizer.merge(span,attrs = {&#34;TAG&#34;: &#34;NN&#34;,&#34;POS&#34;: &#34;PROPN&#34;,&#34;_&#34;: {&#34;is_math&#34;: True}})
+    # a hack: as I could not found a way to change token.text, I am using 
+    # the token._.math attribute to store the original text
+    math_txts = {i:token.text.strip(&#39;¦&#39;).strip() for i, token in enumerate(doc) if token._.is_math}
+    text = &#34; &#34;.join([token.text if not token._.is_math else &#34;MATH&#34; for token in doc])
+    new_doc = nlp(text)
+    for i, token in enumerate(new_doc):
+        if token.text == &#34;MATH&#34;:
+            token._.math = math_txts[i]
+            token._.is_math = True
+    return new_doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_noun_conjs"><code class="name flex">
+<span>def <span class="ident">merge_noun_conjs</span></span>(<span>doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge conjunctions into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_noun_conjs(doc):
+    &#34;&#34;&#34;
+        Merge conjunctions into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token is a conjunction (CC)
+            if token.dep_ == &#39;conj&#39; and token.pos_ in [&#39;PROPN&#39;,&#39;NOUN&#39;]:
+                idxs = [token.i]+[c.i for c in token.conjuncts]
+                start = min(idxs)
+                end = max(idxs)+1
+                if start &lt; end:
+                        span = doc[start : end]
+                        spans.append(span)
+                        # Merge the span into a single token
+        filtered_spans = filter_spans(spans) # type: ignore
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_phrases"><code class="name flex">
+<span>def <span class="ident">merge_phrases</span></span>(<span>doc, avoid=[])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge noun phrases (noun_chunks) into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_phrases(doc, avoid = []):
+    &#34;&#34;&#34;
+        Merge noun phrases (noun_chunks) into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        nps = doc.noun_chunks
+        for np in nps:
+            attrs = {
+                &#34;tag&#34;: np.root.tag_,
+                &#34;lemma&#34;: np.root.lemma_,
+                &#34;ent_type&#34;: np.root.ent_type_,
+            }
+            if np[0].pos_ in avoid:
+                retokenizer.merge(np[1:], attrs=attrs)
+            else:
+                retokenizer.merge(np, attrs=attrs)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_prepositions"><code class="name flex">
+<span>def <span class="ident">merge_prepositions</span></span>(<span>doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge prepositions into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_prepositions(doc):
+    &#34;&#34;&#34;
+        Merge prepositions into single tokens.
+    &#34;&#34;&#34;
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token is a preposition (ADP)
+            if token.dep_ == &#39;prep&#39; and token.text == &#39;of&#39; and token.head.pos_ in [&#39;NOUN&#39;,&#39;PROPN&#39;]:
+                idxs = [token.head.i]+[token.i]+[c.i for c in token.children]
+                start = min(idxs)
+                end = max(idxs)+1
+                if start &lt; end:
+                        span = doc[start : end]
+                        spans.append(span)
+                        # Merge the span into a single token
+        filtered_spans = filter_spans(spans)
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_punct"><code class="name flex">
+<span>def <span class="ident">merge_punct</span></span>(<span>doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Merge punctuation into single tokens.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_punct(doc):
+    &#34;&#34;&#34;
+        Merge punctuation into single tokens.
+    &#34;&#34;&#34;
+    spans = []
+    for word in doc[:-1]:
+        if word.is_punct or not word.nbor(1).is_punct:
+            continue
+        start = word.i
+        end = word.i + 1
+        while end &lt; len(doc) and doc[end].is_punct:
+            end += 1
+        span = doc[start:end]
+        spans.append((span, word.tag_, word.lemma_, word.ent_type_))
+    with doc.retokenize() as retokenizer:
+        for span, tag, lemma, ent_type in spans:
+            attrs = {&#34;tag&#34;: tag, &#34;lemma&#34;: lemma, &#34;ent_type&#34;: ent_type}
+            retokenizer.merge(span, attrs=attrs)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.merge_verbs"><code class="name flex">
+<span>def <span class="ident">merge_verbs</span></span>(<span>doc)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def merge_verbs(doc):
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token dep is appos
+            if token.pos_ in &#34;VERB&#34;:
+                adjs = [c for c in token.children if c.pos_ in [&#34;ADJ&#34;]]
+                auxs = [c for c in token.children if c.pos_ in [&#34;ADJ&#34;, &#34;AUX&#34;, &#34;ADV&#34;] if c.i &lt; token.i]
+                suppls = adjs + auxs
+                idxs = [t.i for t in [token]+suppls]
+                if idxs:
+                    start = min(idxs)
+                    end = max(idxs)+1
+                    if start &lt; end:
+                        span = doc[start : end]
+                        spans.append(span)
+        for span in spans:
+            retokenizer.merge(span)
+    return doc</code></pre>
+</details>
+</dd>
+<dt id="depcy.base.merge.split_sent_at_commas"><code class="name flex">
+<span>def <span class="ident">split_sent_at_commas</span></span>(<span>doc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Split sentences at commas</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def split_sent_at_commas(doc):
+    &#34;&#34;&#34;Split sentences at commas&#34;&#34;&#34;
+    logger.debug(f&#34;split_sent_at_commas: {doc}&#34;)
+    start = 0
+    for word in doc:
+        if word.text == &#34;,&#34;:
+            yield doc[start:word.i]
+            start = word.i + 1
+    yield doc[start:]</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="depcy.base" href="index.html">depcy.base</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="depcy.base.merge.merge_all" href="#depcy.base.merge.merge_all">merge_all</a></code></li>
+<li><code><a title="depcy.base.merge.merge_appos" href="#depcy.base.merge.merge_appos">merge_appos</a></code></li>
+<li><code><a title="depcy.base.merge.merge_compound_nouns" href="#depcy.base.merge.merge_compound_nouns">merge_compound_nouns</a></code></li>
+<li><code><a title="depcy.base.merge.merge_date" href="#depcy.base.merge.merge_date">merge_date</a></code></li>
+<li><code><a title="depcy.base.merge.merge_math" href="#depcy.base.merge.merge_math">merge_math</a></code></li>
+<li><code><a title="depcy.base.merge.merge_noun_conjs" href="#depcy.base.merge.merge_noun_conjs">merge_noun_conjs</a></code></li>
+<li><code><a title="depcy.base.merge.merge_phrases" href="#depcy.base.merge.merge_phrases">merge_phrases</a></code></li>
+<li><code><a title="depcy.base.merge.merge_prepositions" href="#depcy.base.merge.merge_prepositions">merge_prepositions</a></code></li>
+<li><code><a title="depcy.base.merge.merge_punct" href="#depcy.base.merge.merge_punct">merge_punct</a></code></li>
+<li><code><a title="depcy.base.merge.merge_verbs" href="#depcy.base.merge.merge_verbs">merge_verbs</a></code></li>
+<li><code><a title="depcy.base.merge.split_sent_at_commas" href="#depcy.base.merge.split_sent_at_commas">split_sent_at_commas</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
