@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+#emacs
+*~
+\#*\#
+
+# Visual environment files
+.vscode
+
+# dotenv environment variables file, here you have your passwords and other secrets
+.env
+
+# logs
+freeze.txt
+log/
+
+# Python virtual environment
+.venv/
+cache/
+
+# test data
+test/data/

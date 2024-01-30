@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: Depcy
+Version: 1.0.0
+Summary: A simple utility library for navigating and extreacting data from spacy dependency trees.
+Home-page: https://github.com/WolfgangSpahn/depcy
+Author: Wolfgang Spahn
+Author-email: wolfgang.spahn@google.com
+License: MIT
+Description: A simple utility library for navigating and extreacting data from spacy dependency trees.
+Classifier: 
+    Programming Language :: Python :: 3
+    License :: OSI Approved :: MIT License
+    Intended Audience :: Developers
+    Development Status :: 4 - Beta
+    Topic :: Software Development :: Libraries :: Python Modules
+    Topic :: Text Processing :: Linguistic
+    Operating System :: OS Independent
