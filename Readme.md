@@ -4,6 +4,10 @@ A simple utility library for navigating and extracting data from spacy dependenc
 
 When dealing with LLMs there is the need to machine read the language in/ouput. Spacy is a great tool for this. Its dependency tree hold all information you need for this. Depcy helps to keep it simple.
 
+## Docs
+
+https://wolfgangspahn.github.io/depcy_docs.github.io/
+
 ## Examples
 
 ### Merge all
