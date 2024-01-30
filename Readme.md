@@ -1,12 +1,14 @@
 # Depcy
 
-A simple utility library for navigating and extracting data from spacy dependency trees.
+A simple utility library for navigating and extracting data from spacy dependency trees. You can extract compund nouns, noun phrases and SPO phrases for further use.
+
+When dealing with LLMs there is the need to machine read the language in/ouput. Spacy is a great tool for this. Its dependency tree hold all information you need for this. Depcy helps to keep it simple.
 
 ## Examples
 
 ### Merge all
 
-Use default setting of merge all to merge the noun phrases.
+Merging is our work horse for simple extraction. Here we use the default setting of merge all to merge the noun phrases.
 
 ~~~~python
 from pprint import pprint
@@ -75,7 +77,7 @@ for sent in doc.sents:
 pprint(phs, width=200)
 ```
 
-gives us all major facts in the paragraph in simple sentences.
+gives us all major facts in the paragraph in simple sentences, ready for further use.
 
 ``` bash
 ['Momentum is conserved in this system',
