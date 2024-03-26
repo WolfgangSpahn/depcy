@@ -1,12 +1,13 @@
 # Depcy
 
-A simple utility library for navigating and extracting data from spacy dependency trees. You can extract compund nouns, noun phrases and SPO phrases for further use.
+This is a utility library that simplifies the navigation and extraction of data from Spacy dependency trees. It allows for the extraction of compound nouns, noun phrases, and SPO phrases for further use.
 
-When dealing with LLMs there is the need to machine read the language in/ouput. Spacy is a great tool for this. Its dependency tree hold all information you need for this. Depcy helps to keep it simple.
+Spacy is an excellent tool for machine-reading language input/output. Its dependency tree contains all the necessary information. Depcy simplifies this process.
 
 ## Docs
 
-https://wolfgangspahn.github.io/depcy_docs.github.io/
+Depcy: https://wolfgangspahn.github.io/depcy_docs.github.io/
+Spacy: https://spacy.io/api
 
 ## Examples
 
@@ -125,6 +126,10 @@ period]
 
 
 ### Get key phrases from sentence
+
+In addition to the entities you want to extract facts. This can be done be identifing the subject predicate object phrases in the tree.
+
+Please notice how we merge the verb tokens to keep our tree handy, not loosing auxiliar verbs.
 
 ``` python
 text = "Momentum is conserved in this system because there are no external forces acting on it. The system is isolated, and the only forces at play are the internal forces between the two carts during the collision. According to the law of conservation of momentum, the total momentum of an isolated system remains constant. The total momentum before the collision, here just the momentum of cart 1, must equal the total momentum after the collision."

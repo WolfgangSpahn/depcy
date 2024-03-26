@@ -18,9 +18,11 @@
     Every function takes a spacy doc as input and returns a spacy doc as output.
 
     In python console use it like this:
+    >>> from pprint import pprint
     >>> import spacy
     >>> nlp = spacy.load("en_core_web_sm")
     >>> from depcy.base.merge import merge_prepositions, merge_compound_nouns, merge_phrases, merge_punct, merge_appos, merge_all
+    >>> from depcy.extract import nouns_propns
     >>> from depcy.utils import tree_view
 
     >>> doc = nlp("The blue, red apple of the apple tree has been fallen.")
@@ -140,39 +142,59 @@
     >>> print([ str(part) for part in split_sent_at_commas(doc)])
     ['The blue, red apple of the apple tree, Martas tree, has been fallen', 'Tom and Jerry need to pick it up.']
 
-    >>> doc = nlp("The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from around 1760 to about 1820–1840.")
+    >>> doc = nlp("The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes, that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States, that occurred during the period from 1760 to 1820–1840).")
     >>> doc = merge_all(doc)
-    >>> doc = merge_appos(doc, deps = ['acl'])
     >>> tree_view(doc)
-    +--was|AUX (ROOT|1)
-        +--The Industrial Revolution, also known as the First Industrial Revolution,|PROPN (nsubj|0)
-        +--a period of global transition of human economy|NOUN (attr|2)
-        |   +--towards|ADP (prep|3)
-        |   |   +--more widespread, efficient and stable manufacturing processes|NOUN (pobj|4)
-        |   |       +--succeeded|VERB (relcl|6)
-        |   |           +--that|PRON (nsubj|5)
-        |   +--the Agricultural Revolution, starting|VERB (acl|7)
-        |       +--from|ADP (prep|8)
-        |           +--Great Britain|PROPN (pobj|9)
-        |               +--and|CCONJ (cc|10)
-        |               +--continental Europe|PROPN (conj|11)
-        |                   +--and|CCONJ (cc|12)
-        |                   +--the United States|PROPN (conj|13)
-        +--,|PUNCT (punct|14)
-        +--occurred|VERB (ccomp|16)
-        |   +--that|PRON (nsubj|15)
-        |   +--during|ADP (prep|17)
-        |   |   +--the period|NOUN (pobj|18)
-        |   |       +--from|ADP (prep|19)
-        |   |           +--around|ADP (prep|20)
-        |   |               +--1760|NUM (pobj|21)
-        |   +--to|ADP (prep|22)
-        |       +--1820–1840|NUM (pobj|24)
-        |           +--about|ADP (advmod|23)
-        +--.|PUNCT (punct|25)
+    +--was|AUX (ROOT|7)
+        +--The Industrial Revolution|PROPN (nsubj|0)
+        |   +--,|PUNCT (punct|1)
+        |   +--known|VERB (acl|3)
+        |   |   +--also|ADV (advmod|2)
+        |   |   +--as|ADP (prep|4)
+        |   |       +--the First Industrial Revolution|PROPN (pobj|5)
+        |   +--,|PUNCT (punct|6)
+        +--a period of global transition of human economy|NOUN (attr|8)
+        |   +--towards|ADP (prep|9)
+        |       +--more widespread, efficient and stable manufacturing processes|NOUN (pobj|10)
+        +--,|PUNCT (punct|11)
+        +--succeeded|VERB (ccomp|13)
+        |   +--that|PRON (nsubj|12)
+        |   +--the Agricultural Revolution|PROPN (dobj|14)
+        |   +--,|PUNCT (punct|15)
+        |   +--starting|VERB (advcl|16)
+        |   |   +--from|ADP (prep|17)
+        |   |       +--Great Britain|PROPN (pobj|18)
+        |   |           +--and|CCONJ (cc|19)
+        |   |           +--continental Europe|PROPN (conj|20)
+        |   |               +--and|CCONJ (cc|21)
+        |   |               +--the United States|PROPN (conj|22)
+        |   +--,|PUNCT (punct|23)
+        |   +--occurred|VERB (conj|25)
+        |       +--that|PRON (nsubj|24)
+        |       +--during|ADP (prep|26)
+        |       |   +--the period|NOUN (pobj|27)
+        |       |       +--from|ADP (prep|28)
+        |       |           +--1760|NUM (pobj|29)
+        |       |           +--to|ADP (prep|30)
+        |       |               +--1820–1840|NUM (pobj|31)
+        |       +--)|PUNCT (punct|32)
+        +--.|PUNCT (punct|33)
     
-    >>> print([ str(part) for part in split_sent_at_commas(doc)])
-    ['The Industrial Revolution, also known as the First Industrial Revolution, was a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes that succeeded the Agricultural Revolution, starting from Great Britain and continental Europe and the United States', 'that occurred during the period from around 1760 to about 1820–1840.']
+    >>> doc = merge_noun_preps(doc)
+    >>> pprint(nouns_propns(doc))
+    [The Industrial Revolution,
+     the First Industrial Revolution,
+     a period of global transition of human economy towards more widespread, efficient and stable manufacturing processes,
+     the Agricultural Revolution,
+     Great Britain,
+     continental Europe,
+     the United States,
+     the period from 1760 to 1820–1840]
+
+    >>> doc = nlp("Energy is a measure of a system's ability to do work. It exists in various forms, such as kinetic energy, potential energy, thermal energy, and others. Energy can be transformed from one form to another but cannot be created or destroyed, a principle known as the conservation of energy.")
+    >>> doc = list(doc.sents)[0].as_doc() 
+    >>> doc = merge_all(doc)
+    >>> pprint(nouns_propns(doc))
 
 """
 import logging
@@ -181,6 +203,8 @@ import spacy
 from spacy.matcher import Matcher
 from spacy.util import filter_spans
 from spacy.tokens import Span, Doc, Token
+
+from depcy.base.navigate import descendants
 
 logger = logging.getLogger(__name__)
 
@@ -227,6 +251,27 @@ def merge_noun_conjs(doc):
                         spans.append(span)
                         # Merge the span into a single token
         filtered_spans = filter_spans(spans) # type: ignore
+        for span in filtered_spans:
+            retokenizer.merge(span)
+    return doc
+
+def merge_noun_preps(doc):
+    """
+        Merge prepositions into single tokens.
+    """
+    with doc.retokenize() as retokenizer:
+        spans = []
+        for token in doc:
+            # Check if the token is a preposition (ADP)
+            if token.dep_ == 'prep' and token.head.pos_ in ['NOUN','PROPN']:
+                idxs = [token.head.i]+[token.i]+[c.i for c in descendants(token,skip=["relcl"])]
+                start = min(idxs)
+                end = max(idxs)+1
+                if start < end:
+                        span = doc[start : end]
+                        spans.append(span)
+                        # Merge the span into a single token
+        filtered_spans = filter_spans(spans)
         for span in filtered_spans:
             retokenizer.merge(span)
     return doc
